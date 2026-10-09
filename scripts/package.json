@@ -7,6 +7,7 @@
     "start": "tsx src/keeper.ts",
     "once": "tsx src/keeper.ts --once",
     "dry-run": "tsx src/keeper.ts --once --dry-run",
+    "check-hints": "tsx src/check-hints.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
