@@ -1,0 +1,24 @@
+{
+  "name": "gapguard",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Gapguard - parametric cover for tokenized stocks and RWA tokens",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "scripts": {
+    "config:export": "node config/export.ts",
+    "contracts:build": "cd contracts && forge build",
+    "contracts:test": "cd contracts && forge test --no-match-path \"test/fork/*\"",
+    "contracts:test:fork": "cd contracts && forge test --match-path \"test/fork/*\"",
+    "contracts:coverage": "cd contracts && forge coverage --no-match-coverage \"(test|script)/\" --report summary",
+    "slither": "cd contracts && slither . --config-file slither.config.json",
+    "app:dev": "pnpm --filter @gapguard/app dev",
+    "app:build": "pnpm --filter @gapguard/app build",
+    "keeper": "pnpm --filter @gapguard/keeper start",
+    "fork:anvil": "bash scripts/fork/anvil-fork.sh",
+    "fork:deploy": "bash scripts/fork/deploy-fork.sh"
+  }
+}

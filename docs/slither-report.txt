@@ -1,0 +1,150 @@
+Slither full run (all severities incl. informational). High: 0, Medium: 0.
+Command: cd contracts && slither . --config-file slither.config.json
+
+'forge clean' running (wd: C:\Users\dunam\OneDrive\Desktop\20 Project\8 Gapguard\contracts)
+'forge config --json' running
+'forge build --build-info --deny never --skip ./test/** ./script/** --force' running (wd: C:\Users\dunam\OneDrive\Desktop\20 Project\8 Gapguard\contracts)
+INFO:Detectors:
+Detector: calls-loop
+CoverRegistry._expire(uint256) (src/CoverRegistry.sol#283-293) has external calls inside a loop: _products[c.productId].pool.unlockCapital(amount) (src/CoverRegistry.sol#292)
+	Calls stack containing the loop:
+		CoverRegistry.expireCovers(uint256[])
+WeekendGapResolver.withdrawalsBlocked() (src/resolvers/WeekendGapResolver.sol#61-70) has external calls inside a loop: (c,o) = clock.weeklyWindow(w - i) (src/resolvers/WeekendGapResolver.sol#66)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop
+INFO:Detectors:
+Detector: timestamp
+AttestationModule.dispute(uint256) (src/AttestationModule.sol#97-112) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= a.disputeDeadline (src/AttestationModule.sol#100)
+AttestationModule.finalize(uint256) (src/AttestationModule.sol#115-129) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < a.disputeDeadline (src/AttestationModule.sol#118)
+	- block.timestamp < uint256(a.disputedAt) + arbitrationWindow (src/AttestationModule.sol#122)
+CapitalPool.unvestedPremium() (src/CapitalPool.sol#88-91) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= vestEnd (src/CapitalPool.sol#89)
+CapitalPool.totalAssets() (src/CapitalPool.sol#93-97) uses timestamp for comparisons
+	Dangerous comparisons:
+	- bal > unvested (src/CapitalPool.sol#96)
+CapitalPool.freeCapital() (src/CapitalPool.sol#99-102) uses timestamp for comparisons
+	Dangerous comparisons:
+	- ta > lockedCapital (src/CapitalPool.sol#101)
+CapitalPool.utilizationBps() (src/CapitalPool.sol#106-109) uses timestamp for comparisons
+	Dangerous comparisons:
+	- ta == 0 (src/CapitalPool.sol#108)
+CapitalPool.lockCapital(uint256) (src/CapitalPool.sol#113-119) uses timestamp for comparisons
+	Dangerous comparisons:
+	- newLocked > ta (src/CapitalPool.sol#116)
+CapitalPool.maxDeposit(address) (src/CapitalPool.sol#143-148) uses timestamp for comparisons
+	Dangerous comparisons:
+	- ta >= depositCap (src/CapitalPool.sol#147)
+CapitalPool.maxMint(address) (src/CapitalPool.sol#152-155) uses timestamp for comparisons
+	Dangerous comparisons:
+	- maxAssets == type()(uint256).max (src/CapitalPool.sol#154)
+CapitalPool.isWithdrawable(address) (src/CapitalPool.sol#190-196) uses timestamp for comparisons
+	Dangerous comparisons:
+	- paused() || r.shares == 0 (src/CapitalPool.sol#192)
+	- block.timestamp < r.unlockAt || block.timestamp > uint256(r.unlockAt) + withdrawWindow (src/CapitalPool.sol#193)
+CapitalPool.maxRedeem(address) (src/CapitalPool.sol#198-203) uses timestamp for comparisons
+	Dangerous comparisons:
+	- s < freeShares (src/CapitalPool.sol#202)
+CapitalPool._exit(uint256,uint256,address,address) (src/CapitalPool.sol#233-245) uses timestamp for comparisons
+	Dangerous comparisons:
+	- shares == 0 || shares > r.shares (src/CapitalPool.sol#237)
+	- assets > free (src/CapitalPool.sol#239)
+ChainlinkOracleAdapter.getPrice(address) (src/ChainlinkOracleAdapter.sol#105-123) uses timestamp for comparisons
+	Dangerous comparisons:
+	- updatedAt == 0 || updatedAt > block.timestamp || block.timestamp - updatedAt > c.maxStaleness (src/ChainlinkOracleAdapter.sol#112)
+	- a2 <= 0 || u2 == 0 || block.timestamp - u2 > c.maxStaleness (src/ChainlinkOracleAdapter.sol#118)
+ChainlinkOracleAdapter._checkSequencer() (src/ChainlinkOracleAdapter.sol#182-188) uses timestamp for comparisons
+	Dangerous comparisons:
+	- answer != 0 || startedAt == 0 || block.timestamp - startedAt <= sequencerGracePeriod (src/ChainlinkOracleAdapter.sol#187)
+CoverRegistry.isClaimable(uint256,bytes32) (src/CoverRegistry.sol#161-166) uses timestamp for comparisons
+	Dangerous comparisons:
+	- c.status != CoverStatus.Active (src/CoverRegistry.sol#163)
+	- triggered && asset == c.asset && eventTime >= c.start && eventTime <= c.end (src/CoverRegistry.sol#165)
+CoverRegistry._validatePurchase(CoverRegistry.Product,uint8,address,uint128,uint64,uint64) (src/CoverRegistry.sol#207-234) uses timestamp for comparisons
+	Dangerous comparisons:
+	- start < earliest || start > block.timestamp + MAX_START_DELAY (src/CoverRegistry.sol#224)
+CoverRegistry._expire(uint256) (src/CoverRegistry.sol#283-293) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= uint256(c.end) + claimGracePeriod (src/CoverRegistry.sol#286)
+MarketClock.setWeekOverride(uint256,uint64,uint64,bool) (src/MarketClock.sol#107-120) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp + MIN_NOTICE > earliest (src/MarketClock.sol#113)
+MarketClock.setHoliday(uint256,bool) (src/MarketClock.sol#123-127) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp + MIN_NOTICE > dayIndex * 86400 (src/MarketClock.sol#124)
+ProjectTokenHooks.withdrawUnstaked() (src/ProjectTokenHooks.sol#124-132) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < s.unstakeAt (src/ProjectTokenHooks.sol#128)
+BaseResolver.withdrawalsBlocked() (src/resolvers/BaseResolver.sol#73-75) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lastTriggerAt != 0 && block.timestamp < uint256(lastTriggerAt) + settlementPeriod (src/resolvers/BaseResolver.sol#74)
+BaseResolver._record(bytes32,address,uint64,bool,uint256) (src/resolvers/BaseResolver.sol#103-109) uses timestamp for comparisons
+	Dangerous comparisons:
+	- _events[eventId].resolvedAt != 0 (src/resolvers/BaseResolver.sol#104)
+DepegResolver.poke(address) (src/resolvers/DepegResolver.sol#87-117) uses timestamp for comparisons
+	Dangerous comparisons:
+	- e.start == 0 || block.timestamp - e.lastPoke > maxPokeGap (src/resolvers/DepegResolver.sol#100)
+	- block.timestamp - e.start >= minDuration && e.pokes >= minPokes (src/resolvers/DepegResolver.sol#111)
+DepegResolver.expireEpisode(address) (src/resolvers/DepegResolver.sol#122-126) uses timestamp for comparisons
+	Dangerous comparisons:
+	- e.start == 0 || block.timestamp - e.lastPoke <= maxPokeGap (src/resolvers/DepegResolver.sol#124)
+DepegResolver.setAssetEnabled(address,bool) (src/resolvers/DepegResolver.sol#153-160) uses timestamp for comparisons
+	Dangerous comparisons:
+	- ! enabled && episodes[asset].start != 0 (src/resolvers/DepegResolver.sol#157)
+IssuerHaltResolver.poke(address) (src/resolvers/IssuerHaltResolver.sol#62-76) uses timestamp for comparisons
+	Dangerous comparisons:
+	- firstSeenPaused[asset] != 0 (src/resolvers/IssuerHaltResolver.sol#67)
+	- firstSeenPaused[asset] == 0 (src/resolvers/IssuerHaltResolver.sol#71)
+IssuerHaltResolver.proposeHalt(address,uint64) (src/resolvers/IssuerHaltResolver.sol#81-98) uses timestamp for comparisons
+	Dangerous comparisons:
+	- start <= lastSeenUnpaused[asset] || start > firstSeenPaused[asset] (src/resolvers/IssuerHaltResolver.sol#87)
+	- block.timestamp - start < haltThreshold (src/resolvers/IssuerHaltResolver.sol#88)
+IssuerHaltResolver.setAssetEnabled(address,bool) (src/resolvers/IssuerHaltResolver.sol#127-136) uses timestamp for comparisons
+	Dangerous comparisons:
+	- ! enabled && firstSeenPaused[asset] != 0 (src/resolvers/IssuerHaltResolver.sol#130)
+OracleOutageResolver.report(address) (src/resolvers/OracleOutageResolver.sol#38-55) uses timestamp for comparisons
+	Dangerous comparisons:
+	- late = staleSecs >= oracle.maxStaleness(asset) (src/resolvers/OracleOutageResolver.sol#41)
+	- late != suspected[asset] (src/resolvers/OracleOutageResolver.sol#42)
+	- staleSecs >= outageThreshold (src/resolvers/OracleOutageResolver.sol#48)
+OracleOutageResolver.canPurchase(address,uint64,uint64) (src/resolvers/OracleOutageResolver.sol#57-61) uses timestamp for comparisons
+	Dangerous comparisons:
+	- staleSecs < oracle.maxStaleness(asset) (src/resolvers/OracleOutageResolver.sol#60)
+WeekendGapResolver.resolve(address,uint256,uint80,uint80) (src/resolvers/WeekendGapResolver.sol#39-53) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < openTime (src/resolvers/WeekendGapResolver.sol#46)
+WeekendGapResolver.withdrawalsBlocked() (src/resolvers/WeekendGapResolver.sol#61-70) uses timestamp for comparisons
+	Dangerous comparisons:
+	- w < i (src/resolvers/WeekendGapResolver.sol#65)
+	- block.timestamp + preCloseBlock >= c && block.timestamp < uint256(o) + resolutionGrace (src/resolvers/WeekendGapResolver.sol#67)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+INFO:Detectors:
+Detector: cyclomatic-complexity
+TickMath.getSqrtRatioAtTick(int24) (src/libraries/TickMath.sol#17-48) has a high cyclomatic complexity (25).
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#cyclomatic-complexity
+INFO:Detectors:
+Detector: too-many-digits
+TickMath.getSqrtRatioAtTick(int24) (src/libraries/TickMath.sol#17-48) uses literals with too many digits:
+	- ratio = 0x100000000000000000000000000000000 (src/libraries/TickMath.sol#22-23)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits
+INFO:Detectors:
+Detector: unimplemented-functions
+CapitalPool (src/CapitalPool.sol#22-280) does not implement functions:
+	- ICapitalPool.asset() (src/interfaces/ICapitalPool.sol#5)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unimplemented-functions
+INFO:Detectors:
+Detector: unindexed-event-address
+Event AttestationModule.HooksSet(address,address) (src/AttestationModule.sol#46) has address parameters but no indexed parameters
+Event CapitalPool.ComplianceSet(address) (src/CapitalPool.sol#59) has address parameters but no indexed parameters
+Event CapitalPool.WithdrawGuardSet(address) (src/CapitalPool.sol#60) has address parameters but no indexed parameters
+Event ComplianceRegistry.ProviderSet(address) (src/ComplianceRegistry.sol#18) has address parameters but no indexed parameters
+Event CoverNFT.RegistrySet(address) (src/CoverNFT.sol#22) has address parameters but no indexed parameters
+Event CoverNFT.ComplianceSet(address) (src/CoverNFT.sol#23) has address parameters but no indexed parameters
+Event CoverRegistry.ModulesSet(address,address,address,address) (src/CoverRegistry.sol#91) has address parameters but no indexed parameters
+Event ProjectTokenHooks.ComplianceSet(address) (src/ProjectTokenHooks.sol#54) has address parameters but no indexed parameters
+Event BaseResolver.OracleSet(address) (src/resolvers/BaseResolver.sol#34) has address parameters but no indexed parameters
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unindexed-event-address-parameters
+INFO:Slither:. analyzed (67 contracts with 97 detectors), 46 result(s) found

@@ -1,0 +1,7 @@
+{
+  "filter_paths": "(lib/|test/|script/)",
+  "exclude_dependencies": true,
+  "compile_force_framework": "foundry",
+  "foundry_compile_all": false,
+  "detectors_to_exclude": "naming-convention,solc-version,pragma,assembly,low-level-calls"
+}

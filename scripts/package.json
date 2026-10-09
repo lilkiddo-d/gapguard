@@ -1,0 +1,20 @@
+{
+  "name": "@gapguard/keeper",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/keeper.ts",
+    "once": "tsx src/keeper.ts --once",
+    "dry-run": "tsx src/keeper.ts --once --dry-run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "viem": "^2.57.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  }
+}
